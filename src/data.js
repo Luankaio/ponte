@@ -83,12 +83,21 @@ const BASE = [
 ];
 
 const LOGOS = {
-  'Casa Brasa Café': '/lojas/casa-brasa-cafe.svg',
-  'Lume Cosméticos': '/lojas/lume-cosmeticos.svg',
-  'Verde Raiz Plantas': '/lojas/verde-raiz-plantas.svg',
-  'Pedal Bikes': '/lojas/pedal-bikes.svg',
-  'Doce Ateliê': '/lojas/doce-atelie.svg',
-  'Tramas Moda': '/lojas/tramas-moda.svg'
+  'Casa Brasa Café': '/lojas/casa-brasa-cafe.png',
+  'Lume Cosméticos': '/lojas/lume-cosmeticos.png',
+  'Verde Raiz Plantas': '/lojas/verde-raiz-plantas.png',
+  'Pedal Bikes': '/lojas/pedal-bikes.png',
+  'Doce Ateliê': '/lojas/doce-atelie.png',
+  'Tramas Moda': '/lojas/tramas-moda.png'
+};
+
+const LOGO_BG = {
+  'Casa Brasa Café': '#FED504',
+  'Lume Cosméticos': '#F885BE',
+  'Verde Raiz Plantas': '#06CE86',
+  'Pedal Bikes': '#7A03F5',
+  'Doce Ateliê': '#FB3501',
+  'Tramas Moda': '#FFFEFF'
 };
 
 // Restaurantes do grupo Menu Brands (Fortaleza). Propostas mockadas, mesmo modelo das demais lojas.
@@ -99,7 +108,59 @@ const restProps = (handle, item, worth) => [
   p('permuta', 'Refeição para 2 pessoas + Reels', 0, 'em produtos · vale R$ ' + worth, ['Mínimo de 2 mil seguidores', 'Agendar com 5 dias de antecedência', 'Publicar em até 7 dias da visita'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', 'Refeição')
 ];
 const restEx = [['@ju.testa', 'Reels', '84 mil'], ['@lucas.provacafe', 'Reels', '61 mil'], ['@bh.nafome', 'Story', '12 mil'], ['@mari.cafe', 'Feed', '9,4 mil']];
-const rest = (o) => ({ logoBg: o.logo.includes('poke') ? '#F1E5CF' : '#fff', city: 'Fortaleza', fg: INK, ex: restEx, props: restProps(o.handle, o.item, o.worth), ...o });
+
+// Propostas próprias de cada restaurante (cada loja tem tipos, valores e exigências diferentes).
+const RP = {
+  'Poke Nordestino': [
+    p('reels', 'Reels da montagem do bowl', 300, 'por Reels', ['Mínimo de 4 mil seguidores', 'Morar em Fortaleza ou região', 'Mostrar 3 ingredientes nordestinos', 'Marcar @poke.nordestino'], 'Grave a montagem do seu poke do início ao fim, com close na carne de sol, no queijo coalho e nas frutas locais. Até 40 s.'),
+    p('feed', 'Carrossel "do Ceará pro bowl"', 180, 'por carrossel', ['Mínimo de 3 mil seguidores', '5 fotos com luz natural', 'Legenda com a origem dos ingredientes'], 'Carrossel mostrando de onde vem cada ingrediente do bowl. Fotos feitas na loja.'),
+    p('comissao', 'Cupom do criador', 0, 'por pedido com seu cupom', ['Mínimo de 2 mil seguidores', 'Divulgar o cupom nos stories ou na bio', 'Sem teto de ganhos'], 'Você recebe um cupom exclusivo e ganha uma porcentagem de cada pedido feito com ele. Pagamento mensal.', '10%'),
+    p('permuta', '2 bowls + bebida', 0, 'em produtos · vale R$ 90', ['Mínimo de 1,5 mil seguidores', 'Agendar com 3 dias de antecedência', 'Publicar em até 7 dias'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', '2 bowls')
+  ],
+  "Buoni Amici's": [
+    p('reels', 'Reels do corte e do queijo esticando', 420, 'por Reels', ['Mínimo de 8 mil seguidores', 'Mostrar a pizza saindo do forno', 'Close no queijo esticando', 'Marcar @buoniamicis'], 'Visite a pizzaria, acompanhe a pizza saindo do forno e grave o corte e o primeiro pedaço. Até 45 s.'),
+    p('story', 'Stories de unboxing do delivery', 100, 'por sequência', ['Mínimo de 3 mil seguidores', 'Pedir pelo delivery com código do parceiro', 'Mostrar a caixa chegando'], 'Sequência de 3 stories abrindo o pedido de delivery e mostrando a pizza.'),
+    p('comissao', 'Comissão por pedido de delivery', 0, 'por pedido com seu link', ['Mínimo de 2 mil seguidores', 'Divulgar o link por 15 dias', 'Pagamento mensal'], 'Ganhe uma porcentagem de cada pedido feito pelo seu link de delivery.', '8%'),
+    p('permuta', 'Pizza grande + refrigerante', 0, 'em produtos · vale R$ 120', ['Mínimo de 2 mil seguidores', 'Retirada ou consumo na unidade', 'Publicar em até 5 dias'], 'Troca por 1 Reels e 1 story, sem pagamento em dinheiro.', 'Pizza')
+  ],
+  'Buk Burger & Beer': [
+    p('reels', 'Reels do primeiro bite', 480, 'por Reels', ['Mínimo de 10 mil seguidores', 'Maior de 18 anos', 'Mostrar a montagem e o primeiro bite', 'Marcar @bukburgerbeer'], 'Grave a montagem de um burger autoral e a reação ao primeiro bite, com a cerveja ao lado. Até 45 s.'),
+    p('views', 'Bônus por visualizações', 40, 'a cada 1.000 views', ['Mínimo de 10 mil seguidores', 'Print das métricas após 14 dias', 'Teto de R$ 1.200'], 'Valor variável conforme o alcance do Reels. Complementa o pagamento fixo.'),
+    p('feed', 'Foto de mesa com brinde entre amigos', 220, 'por post', ['Maior de 18 anos', 'Mínimo de 5 mil seguidores', 'Pelo menos 2 pessoas na foto'], 'Foto do brinde com amigos, com burgers e cervejas na mesa. Sem incentivo ao consumo exagerado.'),
+    p('permuta', '2 burgers + 2 chopes', 0, 'em produtos · vale R$ 110', ['Maior de 18 anos', 'Mínimo de 3 mil seguidores', 'Agendar com 5 dias de antecedência'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', '2 burgers')
+  ],
+  "Zack Smash's": [
+    p('reels', 'Reels ASMR da chapa', 380, 'por Reels', ['Mínimo de 5 mil seguidores', 'Áudio ambiente, sem música', 'Mostrar o smash na chapa', 'Marcar @zacksmashs'], 'Grave o som e o visual do smash na chapa, o queijo derretendo e o primeiro bite. Até 30 s, sem trilha.'),
+    p('story', 'Stories do smash em 3 cortes', 90, 'por sequência', ['Mínimo de 2 mil seguidores', 'Mostrar o burger de cima, de lado e aberto', 'Manter 24 h no ar'], 'Sequência de 3 stories com ângulos diferentes do burger.'),
+    p('views', 'Pagamento por visualizações', 35, 'a cada 1.000 views', ['Mínimo de 5 mil seguidores', 'Print das métricas após 14 dias', 'Teto de R$ 800'], 'Valor variável conforme o alcance do Reels.'),
+    p('permuta', 'Smash duplo + fritas + milkshake', 0, 'em produtos · vale R$ 85', ['Mínimo de 1,5 mil seguidores', 'Publicar em até 7 dias da visita'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', 'Combo smash')
+  ],
+  'Típico': [
+    p('reels', 'Reels do prato do dia', 330, 'por Reels', ['Mínimo de 4 mil seguidores', 'Mostrar o prato completo com acompanhamentos', 'Tom caseiro, sem filtros', 'Marcar @tipicomenu'], 'Visite o restaurante, grave o prato do dia saindo da panela e a degustação. Até 45 s.'),
+    p('feed', 'Post de depoimento da experiência', 200, 'por post', ['Mínimo de 3 mil seguidores', 'Legenda contando sua experiência', 'Foto do prato com luz natural'], 'Post com foto do prato e depoimento sincero sobre a comida de panela.'),
+    p('story', 'Stories do almoço em família', 110, 'por sequência', ['Mínimo de 2 mil seguidores', 'Incluir ao menos 2 pessoas no almoço'], 'Sequência de 4 stories do almoço, da chegada à sobremesa.'),
+    p('permuta', 'Almoço para 2 pessoas', 0, 'em produtos · vale R$ 100', ['Mínimo de 1,5 mil seguidores', 'Almoço de segunda a sexta', 'Publicar em até 7 dias'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', 'Almoço')
+  ],
+  'Soodeli': [
+    p('reels', 'Reels da marmita da semana', 280, 'por Reels', ['Mínimo de 3 mil seguidores', 'Mostrar o preparo ou a abertura da marmita', 'Sem promessa de emagrecimento', 'Marcar @soodeli'], 'Mostre como a marmita entra na sua rotina de trabalho ou treino. Até 40 s.'),
+    p('story', 'Stories de rotina fitness (3 dias)', 150, 'por sequência de 3 dias', ['Mínimo de 2 mil seguidores', 'Mostrar a marmita em 3 refeições diferentes', 'Perfil público'], 'Acompanhe 3 dias de refeições com as marmitas, sempre com a marca visível.'),
+    p('comissao', 'Comissão em planos semanais', 0, 'por assinatura com seu cupom', ['Mínimo de 2 mil seguidores', 'Divulgar o cupom por 30 dias'], 'Ganhe uma porcentagem de cada assinatura de plano semanal feita com seu cupom.', '12%'),
+    p('permuta', 'Kit com 5 marmitas', 0, 'em produtos · vale R$ 80', ['Mínimo de 1 mil seguidores', 'Retirada na unidade', 'Publicar em até 10 dias'], 'Troca por 1 Reels e 3 stories, sem pagamento em dinheiro.', 'Kit marmitas')
+  ],
+  'Sooveggie': [
+    p('reels', 'Reels quebrando mitos vegetarianos', 260, 'por Reels', ['Mínimo de 3 mil seguidores', 'Citar 2 mitos sobre comida sem carne', 'Tom leve, sem julgamento', 'Marcar @sooveggie'], 'Prove um prato e quebre mitos sobre comida vegetariana enquanto come. Até 45 s.'),
+    p('feed', 'Carrossel de receita', 160, 'por carrossel', ['Mínimo de 2 mil seguidores', '5 fotos do passo a passo', 'Citar a origem dos ingredientes'], 'Carrossel com uma receita inspirada em um prato do cardápio.'),
+    p('views', 'Pagamento por visualizações', 28, 'a cada 1.000 views', ['Mínimo de 3 mil seguidores', 'Print das métricas após 10 dias', 'Teto de R$ 500'], 'Complemento ao Reels, conforme o alcance.'),
+    p('permuta', 'Prato + sobremesa para 2', 0, 'em produtos · vale R$ 80', ['Mínimo de 1 mil seguidores', 'Agendar com 3 dias de antecedência'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', 'Jantar veggie')
+  ],
+  'Ginger': [
+    p('reels', 'Reels de descoberta de sabores', 450, 'por Reels', ['Mínimo de 8 mil seguidores', 'Provar pelo menos 3 pratos fusion', 'Mostrar a reação a cada sabor', 'Marcar @gingerfusionfood'], 'Experimente pratos de países diferentes e mostre a descoberta de cada sabor. Até 50 s.'),
+    p('story', 'Stories de 3 pratos fusion', 130, 'por sequência', ['Mínimo de 3 mil seguidores', 'Mostrar a montagem de cada prato', 'Link do cardápio na figurinha'], 'Sequência de stories com 3 pratos, destacando a mistura de culturas.'),
+    p('feed', 'Foto editorial do prato', 250, 'por post', ['Mínimo de 5 mil seguidores', 'Ambiente bem iluminado', 'Legenda com a origem do prato'], 'Foto com luz natural e composição cuidada de um prato fusion.'),
+    p('permuta', 'Degustação fusion para 2', 0, 'em produtos · vale R$ 110', ['Mínimo de 2 mil seguidores', 'Agendar com 5 dias de antecedência', 'Publicar em até 7 dias'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', 'Degustação')
+  ]
+};
+const rest = (o) => ({ logoBg: o.logo.includes('poke') ? '#F1E5CF' : '#fff', city: 'Fortaleza', fg: INK, ex: restEx, props: RP[o.name] || restProps(o.handle, o.item, o.worth), ...o });
 
 const MENU_BRANDS = [
   rest({ name: 'Poke Nordestino', category: 'Restaurante', handle: '@poke.nordestino', followers: '23 mil', color: Y, logo: '/lojas/poke-nordestino.png', item: 'um poke com ingredientes nordestinos', worth: 90,
@@ -152,4 +213,5 @@ const REEL_SLUGS = {
 };
 const withCovers = s => ({ ...s, ex: s.ex.map((e, i) => [e[0], e[1], e[2], `/reels/${REEL_SLUGS[s.name]}-${i + 1}.jpg`]) });
 
-export const STORES = [...MENU_BRANDS.slice(0, 1), ...BASE.map(s => ({ ...s, logo: LOGOS[s.name], logoBg: s.color })), ...MENU_BRANDS.slice(1)].map(withCovers);
+// Lojas reais (com logo oficial) primeiro; as fictícias por último.
+export const STORES = [...MENU_BRANDS, ...BASE.map(s => ({ ...s, logo: LOGOS[s.name], logoBg: LOGO_BG[s.name] }))].map(withCovers);

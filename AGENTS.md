@@ -20,7 +20,7 @@ src/main.jsx          entrada
 src/App.jsx           UI inteira (lista, página da loja, modal da proposta)
 src/data.js           dados mockados (lojas, propostas, tipos) + paleta
 src/styles.css        hover, animação
-public/lojas/         logos das lojas (PNG baixados + SVG gerados)
+public/lojas/         logos das lojas (PNG baixados + PNG gerados por IA)
 public/reels/         capas de Reels geradas por IA, <slug>-1..4.jpg (4 por loja)
 _design/              export do Claude Design (referência, não editar)
 ```
@@ -38,13 +38,13 @@ Propostas enviadas ficam em `localStorage['ponte-sent']`, com chave `"<nome da l
 - Tipos de proposta (`KINDS`): `reels`, `story`, `feed`, `views` (por 1.000 views), `permuta`, `comissao`, cada um com cor.
 - Loja: `name, category, city, handle, followers, color, fg, logo, logoBg, tagline, about, likes[], avoid[], props[], ex[]`.
 - Proposta (helper `p(kind, title, num, unit, reqs, detail, valueText)`): `num` é o valor numérico usado em "a partir de R$ X"; `value` é o texto exibido (ex. `'12%'`, `'Brunch'` para permuta/comissão).
-- `STORES` = Poke Nordestino, 6 lojas fictícias originais (`BASE`) e 7 restaurantes do grupo Menu Brands (`MENU_BRANDS`, criados pelo helper `rest()` com as mesmas 4 propostas-modelo).
+- `STORES` = Poke Nordestino, 6 lojas fictícias originais (`BASE`) e 7 restaurantes do grupo Menu Brands (`MENU_BRANDS`, criados pelo helper `rest()`; cada um tem propostas próprias em `RP` (tipos, valores e exigências diferentes). `restProps` é só fallback).
 - Seguidores, `@` de Instagram, valores e influenciadores de exemplo são **inventados**.
 
 ## Imagens (`public/lojas/`)
 - Poke Nordestino: logo enviado pelo usuário.
 - Buoni Amici's, Buk, Zack Smash's, Típico, Soodeli, Sooveggie, Ginger: PNGs baixados do site oficial menubrands.com.br (Menu Brands, Fortaleza).
-- Casa Brasa, Lume, Verde Raiz, Pedal, Doce Ateliê, Tramas: SVGs genéricos gerados para o mockup (lojas fictícias, sem logo real).
+- Casa Brasa, Lume, Verde Raiz, Pedal, Doce Ateliê, Tramas: logos PNG gerados por IA (OpenAI `gpt-image-2`) para o mockup (lojas fictícias, sem logo real).
 - Logos reais são de terceiros: ok para teste interno ou com poucas pessoas; pedir autorização ou trocar por genéricos antes de qualquer link público.
 
 ## Capas de Reels (`public/reels/`)
