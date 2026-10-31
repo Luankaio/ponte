@@ -52,7 +52,7 @@ export default function App() {
   const pal = [O, P, Y, G, K];
   const examples = cur.ex.map((e, i) => {
     const c = pal[(sid + i) % 5];
-    return { handle: e[0], type: e[1], views: e[2] + ' views', ini: e[0][1].toUpperCase(), color: c, fg: (c === O || c === P) ? '#fff' : INK, rot: [-2, 1.5, -1, 2][i] };
+    return { handle: e[0], type: e[1], views: e[2] + ' views', img: e[3], ini: e[0][1].toUpperCase(), color: c, fg: (c === O || c === P) ? '#fff' : INK, rot: [-2, 1.5, -1, 2][i] };
   });
 
   const stores = STORES.map((s, i) => ({ ...s, i })).filter(s => filter === 'Todas' || s.category === filter);
@@ -188,19 +188,19 @@ export default function App() {
 
           <section style={{ marginTop: 56 }}>
             <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 40, letterSpacing: '-.04em', lineHeight: 1, margin: '0 0 6px' }}>Exemplos de outros influenciadores</h2>
-            <p style={{ margin: '0 0 24px', color: MUTED }}>Conteúdos que a loja já publicou com parceiros. Imagens são espaços reservados.</p>
+            <p style={{ margin: '0 0 24px', color: MUTED }}>Conteúdos que a loja já publicou com parceiros.</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap: 22 }}>
               {examples.map(e => (
                 <a key={e.handle} href="#" className="example" onClick={ev => ev.preventDefault()} style={{ textDecoration: 'none', color: INK, display: 'block', transform: `rotate(${e.rot}deg)` }}>
-                  <div style={{ background: e.color, border: '2.5px solid ' + INK, borderRadius: 20, boxShadow: '5px 5px 0 ' + INK, aspectRatio: '9/14', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 12 }}>
+                  <div style={{ background: e.color, border: '2.5px solid ' + INK, borderRadius: 20, boxShadow: '5px 5px 0 ' + INK, aspectRatio: '9/14', position: 'relative', backgroundImage: `linear-gradient(180deg,#1A141C99 0%,#1A141C00 28%,#1A141C00 62%,#1A141Cb3 100%),url(${e.img})`, backgroundSize: 'cover', backgroundPosition: 'center', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 12 }}>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                       <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#fff', border: '2px solid ' + INK, display: 'grid', placeItems: 'center', fontWeight: 700, fontSize: 13 }}>{e.ini}</div>
-                      <span style={{ fontWeight: 700, fontSize: 14, color: e.fg }}>{e.handle}</span>
+                      <span style={{ fontWeight: 700, fontSize: 14, color: '#fff', textShadow: '0 1px 3px #0008' }}>{e.handle}</span>
                     </div>
                     <div style={{ alignSelf: 'center', width: 54, height: 54, borderRadius: '50%', background: '#fff', border: '2.5px solid ' + INK, display: 'grid', placeItems: 'center', fontSize: 20, paddingLeft: 4 }}>▶</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 6 }}>
                       <span style={{ background: '#fff', border: '2px solid ' + INK, borderRadius: 10, padding: '2px 10px', fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap' }}>{e.type}</span>
-                      <span style={{ fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap', color: e.fg }}>{e.views}</span>
+                      <span style={{ fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap', color: '#fff', textShadow: '0 1px 3px #0008' }}>{e.views}</span>
                     </div>
                   </div>
                 </a>

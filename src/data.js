@@ -144,4 +144,12 @@ const MENU_BRANDS = [
     avoid: ['Comparar com outras culinárias', 'Ambientes escuros'] })
 ];
 
-export const STORES = [...MENU_BRANDS.slice(0, 1), ...BASE.map(s => ({ ...s, logo: LOGOS[s.name], logoBg: s.color })), ...MENU_BRANDS.slice(1)];
+// Capas de Reels geradas por IA (public/reels/<slug>-1..4.jpg), uma sequência de 4 por loja.
+const REEL_SLUGS = {
+  'Casa Brasa Café': 'casa-brasa', 'Lume Cosméticos': 'lume', 'Verde Raiz Plantas': 'verde-raiz', 'Pedal Bikes': 'pedal',
+  'Doce Ateliê': 'doce-atelie', 'Tramas Moda': 'tramas', 'Poke Nordestino': 'poke', "Buoni Amici's": 'amicis',
+  'Buk Burger & Beer': 'buk', "Zack Smash's": 'zack', 'Típico': 'tipico', 'Soodeli': 'soodeli', 'Sooveggie': 'sooveggie', 'Ginger': 'ginger'
+};
+const withCovers = s => ({ ...s, ex: s.ex.map((e, i) => [e[0], e[1], e[2], `/reels/${REEL_SLUGS[s.name]}-${i + 1}.jpg`]) });
+
+export const STORES = [...MENU_BRANDS.slice(0, 1), ...BASE.map(s => ({ ...s, logo: LOGOS[s.name], logoBg: s.color })), ...MENU_BRANDS.slice(1)].map(withCovers);
