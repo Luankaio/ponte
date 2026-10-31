@@ -1,0 +1,11 @@
+body{margin:0;background:#FFF4E0}
+a{color:#8000FF}a:hover{color:#FF4000}
+@keyframes pop{from{transform:scale(.94) translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.store-card{transition:transform .15s,box-shadow .15s}
+.store-card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 #1A141C !important}
+.prop-card{transition:transform .15s,box-shadow .15s}
+.prop-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 #1A141C !important}
+.back-btn:hover{color:#FF4000}
+.accept-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #1A141C !important}
+.example{transition:transform .15s}
+.example:hover{transform:rotate(0deg) translateY(-4px) !important}

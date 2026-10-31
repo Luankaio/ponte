@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF4E0}
+a{color:#8000FF}a:hover{color:#FF4000}
+@keyframes pop{from{transform:scale(.94) translateY(12px);opacity:0}to{transform:none;opacity:1}}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#FFF4E0;color:#1A141C;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.5">
+  <header style="border-bottom:2.5px solid #1A141C;background:#FFF4E0;position:sticky;top:0;z-index:20">
+    <div style="max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div onClick="{{ goList }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+        <div style="width:40px;height:40px;background:#FF4000;border:2.5px solid #1A141C;border-radius:12px;display:grid;place-items:center;transform:rotate(-4deg)">
+          <svg width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M2 12C3 5 7 2 11 2s8 3 9 10"/><path d="M6 12c.8-3 2.6-4.5 5-4.5s4.2 1.500 5 4.500"/></svg>
+        </div>
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.04em;line-height:1">ponte</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:14px;color:#5b5160;display:none">Logado como</span>
+        <div style="background:#1A141C;color:#fff;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px;white-space:nowrap;box-shadow:3px 3px 0 #FF4000">@ju.testa</div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1200px;margin:0 auto;padding:48px 20px 80px">
+    <div style="text-align:center;max-width:820px;margin:0 auto">
+      <div style="display:inline-block;max-width:100%;background:#FFDD20;border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:5px 14px;font-size:14px;font-weight:700;transform:rotate(-2deg);box-shadow:3px 3px 0 #1A141C">✦ propostas abertas hoje</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,8vw,92px);line-height:.95;letter-spacing:-.05em;margin:22px 0 0">Lojas querendo<br><span style="display:inline-block;background:#FF4000;color:#fff;border:2.5px solid #1A141C;border-radius:16px;padding:0 .2em .08em;box-shadow:5px 5px 0 #1A141C;transform:rotate(-1.5deg);margin-top:8px">aparecer.</span></h1>
+      <p style="color:#5b5160;font-size:19px;margin:28px auto 0;max-width:560px;text-wrap:pretty">Escolha uma loja, veja quanto ela paga por conteúdo e aceite a proposta que fizer sentido para você.</p>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:40px 0 32px">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <button onClick="{{ f.onClick }}" style="font:700 15px 'DM Sans',sans-serif;cursor:pointer;border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:8px 18px;background:{{ f.bg }};color:{{ f.fg }};box-shadow:{{ f.sh }}">{{ f.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:28px">
+      <sc-for list="{{ stores }}" as="s" hint-placeholder-count="6">
+        <div onClick="{{ s.onOpen }}" style="cursor:pointer;background:#fff;border:2.5px solid #1A141C;border-radius:24px;box-shadow:6px 6px 0 #1A141C;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s" style-hover="transform:translate(-3px,-3px);box-shadow:9px 9px 0 #1A141C">
+          <div style="background:{{ s.color }};height:150px;border-bottom:2.5px solid #1A141C;position:relative;display:grid;place-items:center;overflow:hidden">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:150px;letter-spacing:-.06em;line-height:1;color:{{ s.fg }};opacity:.22;position:absolute;right:14px;bottom:-30px">{{ s.initial }}</span>
+            <div style="position:absolute;left:16px;top:16px;background:#fff;color:#1A141C;border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:3px 12px;font-size:13px;font-weight:700;transform:rotate(-3deg)">{{ s.category }}</div>
+            <div style="position:absolute;left:16px;bottom:14px;width:56px;height:56px;border-radius:16px;background:#1A141C;color:#fff;display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;transform:rotate(4deg)">{{ s.initial }}</div>
+          </div>
+          <div style="padding:20px 20px 22px;display:flex;flex-direction:column;gap:6px;flex:1">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.035em;line-height:1.05">{{ s.name }}</h3>
+            <div style="color:#5b5160;font-size:14px">{{ s.city }} · {{ s.followers }} seguidores</div>
+            <p style="margin:6px 0 0;font-size:15px;text-wrap:pretty">{{ s.tagline }}</p>
+            <div style="margin-top:auto;padding-top:16px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px">
+              <div><div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5b5160">{{ s.count }} propostas</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.03em">{{ s.from }}</div></div>
+              <div style="background:#1A141C;color:#fff;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:20px">→</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isStore }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:1200px;margin:0 auto;padding:28px 20px 80px">
+    <button onClick="{{ goList }}" style="font:700 15px 'DM Sans',sans-serif;cursor:pointer;background:none;border:none;padding:6px 0;color:#1A141C;display:inline-flex;gap:8px;align-items:center" style-hover="color:#FF4000">← Todas as lojas</button>
+
+    <section style="margin-top:14px;background:{{ cur.color }};color:{{ cur.fg }};border:2.5px solid #1A141C;border-radius:28px;box-shadow:7px 7px 0 #1A141C;padding:clamp(20px,4vw,40px);display:flex;flex-wrap:wrap;gap:32px;align-items:center">
+      <div style="width:150px;height:150px;flex:none;background:#fff;border:2.5px solid #1A141C;border-radius:18px;box-shadow:4px 4px 0 #1A141C;transform:rotate(-4deg);display:grid;place-items:center;color:#1A141C">
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:96px;letter-spacing:-.06em;line-height:1">{{ cur.initial }}</span>
+      </div>
+      <div style="flex:1 1 340px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#fff;color:#1A141C;border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:2px 12px;font-size:13px;font-weight:700">{{ cur.category }}</span>
+          <span style="background:#1A141C;color:#fff;border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:2px 12px;font-size:13px;font-weight:700">{{ cur.city }}</span>
+        </div>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,7vw,76px);letter-spacing:-.05em;line-height:.95;margin:12px 0 10px">{{ cur.name }}</h1>
+        <p style="margin:0;font-size:18px;max-width:640px;text-wrap:pretty">{{ cur.about }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center">
+          <a href="#" style="background:#1A141C;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:10px 18px;border-radius:999px;white-space:nowrap;box-shadow:3px 3px 0 #fff;border:2px solid #1A141C">Instagram · {{ cur.handle }} ↗</a>
+          <span style="font-weight:700;font-size:15px">{{ cur.followers }} seguidores</span>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;gap:32px;margin-top:48px;align-items:flex-start">
+      <section style="flex:2 1 480px;min-width:0">
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;letter-spacing:-.04em;line-height:1;margin:0 0 6px">Propostas</h2>
+        <p style="margin:0 0 20px;color:#5b5160">Clique numa proposta para ver os pré-requisitos e aceitar.</p>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <sc-for list="{{ props }}" as="p" hint-placeholder-count="4">
+            <div onClick="{{ p.onOpen }}" style="cursor:pointer;background:#fff;border:2.5px solid #1A141C;border-radius:20px;box-shadow:5px 5px 0 #1A141C;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;transition:transform .15s,box-shadow .15s" style-hover="transform:translate(-2px,-2px);box-shadow:7px 7px 0 #1A141C">
+              <div style="flex:1 1 220px;min-width:0">
+                <span style="display:inline-block;background:{{ p.bg }};color:{{ p.fg }};border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:1px 12px;font-size:13px;font-weight:700;transform:rotate(-2deg)">{{ p.kind }}</span>
+                <div style="font-weight:700;font-size:18px;margin-top:8px;text-wrap:pretty">{{ p.title }}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;letter-spacing:-.04em;line-height:1">{{ p.value }}</div>
+                <div style="font-size:13px;color:#5b5160">{{ p.unit }}</div>
+              </div>
+              <div style="flex:none;width:100%;display:flex;justify-content:space-between;align-items:center;border-top:2px dashed #1A141C33;padding-top:12px;font-size:14px;font-weight:700">
+                <span style="color:{{ p.stColor }}">{{ p.status }}</span><span>Ver pré-requisitos →</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <aside style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:20px">
+        <div style="background:#FFDD20;border:2.5px solid #1A141C;border-radius:20px;box-shadow:5px 5px 0 #1A141C;padding:20px">
+          <h3 style="margin:0 0 12px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.03em">Conteúdo que a loja curte</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ cur.likes }}" as="t" hint-placeholder-count="4"><span style="background:#fff;border:2px solid #1A141C;border-radius:999px;white-space:nowrap;padding:3px 12px;font-size:14px;font-weight:700">{{ t }}</span></sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:2.5px solid #1A141C;border-radius:20px;box-shadow:5px 5px 0 #1A141C;padding:20px">
+          <h3 style="margin:0 0 10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.03em">Evite</h3>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ cur.avoid }}" as="t" hint-placeholder-count="2"><div style="display:flex;gap:10px;font-size:15px"><span style="color:#FF4000;font-weight:700">✕</span><span>{{ t }}</span></div></sc-for>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section style="margin-top:56px">
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;letter-spacing:-.04em;line-height:1;margin:0 0 6px">Exemplos de outros influenciadores</h2>
+      <p style="margin:0 0 24px;color:#5b5160">Conteúdos que a loja já publicou com parceiros. Imagens são espaços reservados.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:22px">
+        <sc-for list="{{ examples }}" as="e" hint-placeholder-count="4">
+          <a href="#" style="text-decoration:none;color:#1A141C;display:block;transform:rotate({{ e.rot }}deg);transition:transform .15s" style-hover="transform:rotate(0deg) translateY(-4px)">
+            <div style="background:{{ e.color }};border:2.5px solid #1A141C;border-radius:20px;box-shadow:5px 5px 0 #1A141C;aspect-ratio:9/14;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:12px">
+              <div style="display:flex;gap:8px;align-items:center"><div style="width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid #1A141C;display:grid;place-items:center;font-weight:700;font-size:13px">{{ e.ini }}</div><span style="font-weight:700;font-size:14px;color:{{ e.fg }}">{{ e.handle }}</span></div>
+              <div style="align-self:center;width:54px;height:54px;border-radius:50%;background:#fff;border:2.5px solid #1A141C;display:grid;place-items:center;font-size:20px;padding-left:4px">▶</div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:6px"><span style="background:#fff;border:2px solid #1A141C;border-radius:10px;padding:2px 10px;font-weight:700;font-size:13px;white-space:nowrap">{{ e.type }}</span><span style="font-weight:700;font-size:13px;white-space:nowrap;color:{{ e.fg }}">{{ e.views }}</span></div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ hasOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeP }}" style="position:fixed;inset:0;background:#1A141Cb3;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px">
+    <div onClick="{{ stop }}" style="background:#FFF4E0;border:2.5px solid #1A141C;border-radius:28px;box-shadow:8px 8px 0 #1A141C;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:clamp(20px,4vw,32px);animation:pop .22s ease-out">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+        <span style="background:{{ op.bg }};color:{{ op.fg }};border:2.5px solid #1A141C;border-radius:999px;white-space:nowrap;padding:2px 14px;font-size:14px;font-weight:700;transform:rotate(-2deg)">{{ op.kind }}</span>
+        <button onClick="{{ closeP }}" style="width:38px;height:38px;border-radius:50%;border:2.5px solid #1A141C;background:#fff;font:700 16px 'DM Sans',sans-serif;cursor:pointer">✕</button>
+      </div>
+      <div style="font-size:14px;color:#5b5160;margin-top:16px">{{ cur.name }}</div>
+      <h3 style="margin:2px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:32px;letter-spacing:-.04em;line-height:1.05;text-wrap:pretty">{{ op.title }}</h3>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px;flex-wrap:wrap"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;letter-spacing:-.05em;line-height:1;color:#FF4000">{{ op.value }}</span><span style="color:#5b5160">{{ op.unit }}</span></div>
+      <p style="margin:14px 0 0;text-wrap:pretty">{{ op.detail }}</p>
+
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.03em;margin:24px 0 10px">Pré-requisitos</h4>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ op.reqs }}" as="r" hint-placeholder-count="3">
+            <div style="display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid #1A141C;border-radius:14px;padding:10px 14px"><span style="flex:none;width:22px;height:22px;border-radius:50%;background:#00D68F;border:2px solid #1A141C;display:grid;place-items:center;font-size:12px;font-weight:700">✓</span><span style="font-size:15px">{{ r }}</span></div>
+          </sc-for>
+        </div>
+        <button onClick="{{ accept }}" style="margin-top:24px;width:100%;font:700 18px 'DM Sans',sans-serif;cursor:pointer;background:#FF4000;color:#fff;border:2.5px solid #1A141C;border-radius:16px;padding:16px;box-shadow:4px 4px 0 #1A141C" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #1A141C">Aceitar proposta e enviar →</button>
+        <div style="text-align:center;font-size:13px;color:#5b5160;margin-top:10px">A loja recebe seu perfil @ju.testa e confirma em até 48 h.</div>
+      </sc-if>
+
+      <sc-if value="{{ isSent }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:24px;background:#00D68F;border:2.5px solid #1A141C;border-radius:18px;padding:18px 20px;display:flex;gap:14px;align-items:center">
+          <span style="flex:none;width:44px;height:44px;border-radius:50%;background:#fff;border:2.5px solid #1A141C;display:grid;place-items:center;font-weight:700;font-size:20px">✓</span>
+          <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.03em">Proposta enviada!</div><div style="font-size:15px">Avisamos você quando a loja responder.</div></div>
+        </div>
+        <button onClick="{{ closeP }}" style="margin-top:16px;width:100%;font:700 16px 'DM Sans',sans-serif;cursor:pointer;background:#1A141C;color:#fff;border:2.5px solid #1A141C;border-radius:16px;padding:14px">Voltar à loja</button>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'list', sid: 0, filter: 'Todas', open: null, sent: {} };
+  componentDidMount() {
+    try { const s = JSON.parse(localStorage.getItem('ponte-sent') || '{}'); this.setState({ sent: s }); } catch (e) {}
+  }
+  renderVals() {
+    const INK = '#1A141C', O = '#FF4000', P = '#8000FF', Y = '#FFDD20', G = '#00D68F', K = '#FF8AD0';
+    const R = n => 'R$ ' + n.toLocaleString('pt-BR');
+    const KINDS = {
+      reels: { l: 'Reels', bg: O, fg: '#fff' }, story: { l: 'Story', bg: Y, fg: INK },
+      feed: { l: 'Post no feed', bg: G, fg: INK }, views: { l: 'Por visualizações', bg: P, fg: '#fff' },
+      permuta: { l: 'Permuta', bg: K, fg: INK }, comissao: { l: 'Comissão', bg: '#fff', fg: INK }
+    };
+    const p = (kind, title, num, unit, reqs, detail, valueText) => ({ kind, title, num, unit, reqs, detail, value: valueText || R(num) });
+    const STORES = [
+      { name: 'Casa Brasa Café', category: 'Alimentação', city: 'Belo Horizonte', handle: '@casabrasacafe', followers: '48 mil', color: Y, fg: INK,
+        tagline: 'Cafés especiais e brunch artesanal no coração da cidade.',
+        about: 'Cafeteria de torra própria com três unidades em BH. Queremos mostrar o preparo, o ambiente e o brunch de domingo com gente de verdade.',
+        likes: ['Degustação em vídeo', 'Bastidores do preparo', 'Reels com trilha leve', 'Luz natural', 'Tom descontraído'],
+        avoid: ['Filtros pesados', 'Comparar com concorrentes'],
+        props: [
+          p('reels', '1 Reels de até 45 s no café', 350, 'por Reels', ['Mínimo de 5 mil seguidores', 'Perfil público no Instagram', 'Morar em BH ou região', 'Marcar @casabrasacafe e usar #CasaBrasa', 'Entregar o roteiro 3 dias antes'], 'Visite uma das unidades, grave o preparo de um café e o brunch. Pagamento em até 7 dias após a publicação.'),
+          p('story', '3 Stories com link da reserva', 120, 'por sequência', ['Mínimo de 3 mil seguidores', 'Perfil público', 'Usar o link de reserva fornecido', 'Manter no ar por 24 h'], 'Sequência de 3 stories mostrando o ambiente e o cardápio, com figurinha de link.'),
+          p('views', 'Pagamento por visualizações do Reels', 30, 'a cada 1.000 views', ['Mínimo de 5 mil seguidores', 'Reels com no mínimo 20 s', 'Enviar print das métricas após 14 dias', 'Teto de R$ 900 por Reels'], 'Valor variável conforme o alcance. Contagem de visualizações em 14 dias após a postagem.'),
+          p('permuta', 'Brunch para 2 pessoas + Reels', 0, 'em produtos · vale R$ 180', ['Mínimo de 2 mil seguidores', 'Agendar com 5 dias de antecedência', 'Publicar em até 7 dias da visita'], 'Troca por 1 Reels e 2 stories, sem pagamento em dinheiro.', 'Brunch')
+        ],
+        ex: [['@ju.testa', 'Reels', '84 mil'], ['@lucas.provacafe', 'Reels', '61 mil'], ['@bh.nafome', 'Story', '12 mil'], ['@mari.cafe', 'Feed', '9,4 mil']] },
+      { name: 'Lume Cosméticos', category: 'Beleza', city: 'São Paulo', handle: '@lumecosmeticos', followers: '212 mil', color: K, fg: INK,
+        tagline: 'Skincare vegano com foco em pele brasileira.',
+        about: 'Marca de skincare vegano e cruelty free. Buscamos criadores que mostrem rotina real de pele, antes e depois e resenhas sinceras.',
+        likes: ['Review de produto', 'Antes e depois', 'Rotina de skincare', 'Close na textura', 'Depoimento'],
+        avoid: ['Promessas médicas', 'Pele retocada demais'],
+        props: [
+          p('reels', 'Reels de rotina com 3 produtos', 600, 'por Reels', ['Mínimo de 10 mil seguidores', 'Público majoritariamente do Brasil', 'Mostrar aplicação dos produtos', 'Divulgar o cupom do criador', 'Aprovação do roteiro pela marca'], 'Receba o kit, grave a rotina por 7 dias e publique um Reels de 30 a 60 s.'),
+          p('story', 'Story de unboxing', 180, 'por sequência', ['Mínimo de 8 mil seguidores', 'Mostrar a embalagem aberta', 'Marcar @lumecosmeticos'], 'Sequência de até 4 stories no dia do recebimento do kit.'),
+          p('feed', 'Carrossel de review no feed', 450, 'por post', ['Mínimo de 10 mil seguidores', '5 a 8 slides', 'Legenda com opinião própria', 'Marcar a marca e o cupom'], 'Carrossel com fotos da textura, resultado e prós e contras.'),
+          p('comissao', 'Comissão sobre vendas com seu cupom', 12, 'por venda', ['Mínimo de 5 mil seguidores', 'Cupom exclusivo gerado pela marca', 'Pagamento mensal'], 'Ganhe sobre cada venda feita com o seu cupom, sem limite.', '12%')
+        ],
+        ex: [['@helena.emcasa', 'Reels', '142 mil'], ['@pele.da.rosa', 'Reels', '98 mil'], ['@dani.skin', 'Feed', '21 mil'], ['@rafa.filma', 'Story', '17 mil']] },
+      { name: 'Verde Raiz Plantas', category: 'Casa e decoração', city: 'Porto Alegre', handle: '@verderaizplantas', followers: '31 mil', color: G, fg: INK,
+        tagline: 'Plantas, vasos e cuidado para apartamentos pequenos.',
+        about: 'Loja online e física de plantas de interior. Adoramos conteúdo de decoração, tutoriais de cuidado e transformações de cantinhos.',
+        likes: ['Tutorial de cuidado', 'Casa e decoração', 'Transformação de cantinho', 'Unboxing de pedido'],
+        avoid: ['Plantas fora do vaso original', 'Música com direitos autorais'],
+        props: [
+          p('reels', 'Reels tutorial de cuidado', 250, 'por Reels', ['Mínimo de 3 mil seguidores', 'Mostrar a planta recebida', 'Citar 2 dicas de cuidado', 'Marcar @verderaizplantas'], 'Grave um tutorial curto de rega, luz ou replante com a planta enviada.'),
+          p('views', 'Pagamento por visualizações', 25, 'a cada 1.000 views', ['Mínimo de 3 mil seguidores', 'Print das métricas após 10 dias', 'Teto de R$ 500'], 'Complemento ao Reels. Contagem em 10 dias.'),
+          p('permuta', 'Kit com 2 plantas e vaso', 0, 'em produtos · vale R$ 140', ['Mínimo de 1,5 mil seguidores', 'Entrega apenas no Sul do Brasil', 'Publicar em até 10 dias'], '1 Reels e 3 stories em troca do kit.', 'Kit plantas')
+        ],
+        ex: [['@helena.emcasa', 'Reels', '73 mil'], ['@jardim.da.bia', 'Reels', '28 mil'], ['@apto.verde', 'Feed', '6 mil'], ['@lu.decora', 'Story', '4,2 mil']] },
+      { name: 'Pedal Bikes', category: 'Esporte', city: 'Curitiba', handle: '@pedalbikes', followers: '64 mil', color: P, fg: '#fff',
+        tagline: 'Bicicletas urbanas e acessórios para o dia a dia.',
+        about: 'Loja de bikes urbanas e elétricas. Procuramos criadores que usem a bike na rotina: trabalho, passeio e treino leve.',
+        likes: ['Rotina na bike', 'Review de produto', 'Trajetos da cidade', 'Vídeo UGC'],
+        avoid: ['Andar sem capacete', 'Manobras arriscadas'],
+        props: [
+          p('reels', 'Reels de trajeto com a bike', 480, 'por Reels', ['Mínimo de 8 mil seguidores', 'Usar capacete no vídeo', 'Morar em Curitiba ou região', 'Marcar @pedalbikes'], 'Grave um trajeto real da sua rotina com a bike emprestada por 7 dias.'),
+          p('story', 'Story de test ride', 150, 'por sequência', ['Mínimo de 5 mil seguidores', 'Mostrar a loja ou o ponto de retirada'], 'Sequência de até 5 stories durante o test ride.'),
+          p('comissao', 'Comissão por bike vendida', 5, 'por venda', ['Mínimo de 5 mil seguidores', 'Link rastreado', 'Pagamento em até 30 dias'], 'Ganhe sobre cada bike vendida pelo seu link.', '5%')
+        ],
+        ex: [['@rafa.filma', 'Reels', '57 mil'], ['@ctba.pedala', 'Reels', '44 mil'], ['@lu.nobike', 'Story', '8 mil'], ['@tomas.urb', 'Feed', '5 mil']] },
+      { name: 'Doce Ateliê', category: 'Confeitaria', city: 'Fortaleza', handle: '@doceatelie', followers: '87 mil', color: O, fg: '#fff',
+        tagline: 'Brigadeiros gourmet e caixas de presente.',
+        about: 'Confeitaria artesanal com entrega em Fortaleza. Queremos receitas com nossos produtos, degustações e caixas de presente.',
+        likes: ['Receita com a marca', 'Degustação em vídeo', 'Unboxing de caixa', 'Close nos doces'],
+        avoid: ['Receitas de concorrentes', 'Ambientes escuros'],
+        props: [
+          p('reels', 'Reels de receita com nossos doces', 400, 'por Reels', ['Mínimo de 6 mil seguidores', 'Morar em Fortaleza', 'Usar produtos da marca na receita', 'Marcar @doceatelie'], 'Crie uma receita simples usando os doces enviados, de 30 a 60 s.'),
+          p('feed', 'Foto + legenda no feed', 200, 'por post', ['Mínimo de 4 mil seguidores', 'Foto em luz natural', 'Marcar a marca'], 'Post único com a caixa de presente em destaque.'),
+          p('views', 'Pagamento por visualizações', 35, 'a cada 1.000 views', ['Mínimo de 6 mil seguidores', 'Print das métricas em 14 dias', 'Teto de R$ 700'], 'Valor variável conforme o alcance do Reels.'),
+          p('permuta', 'Caixa com 12 brigadeiros', 0, 'em produtos · vale R$ 95', ['Mínimo de 2 mil seguidores', 'Retirada ou entrega em Fortaleza'], '1 Reels e 2 stories em troca da caixa.', 'Caixa 12')
+        ],
+        ex: [['@rosangela.nacozinha', 'Reels', '120 mil'], ['@doces.da.ana', 'Reels', '66 mil'], ['@fortal.gourmet', 'Feed', '11 mil'], ['@ju.testa', 'Story', '9 mil']] },
+      { name: 'Tramas Moda', category: 'Moda', city: 'Recife', handle: '@tramasmoda', followers: '129 mil', color: '#fff', fg: INK,
+        tagline: 'Moda autoral com tecidos regionais.',
+        about: 'Marca de moda feminina e unissex com tecidos regionais. Buscamos looks do dia, provadores e styling com peças da coleção.',
+        likes: ['Look do dia', 'Provador', 'Styling com 3 peças', 'Vídeo UGC'],
+        avoid: ['Misturar com outras marcas na legenda', 'Edição que altera as cores'],
+        props: [
+          p('reels', 'Reels de styling com 3 peças', 520, 'por Reels', ['Mínimo de 10 mil seguidores', 'Mostrar as 3 peças enviadas', 'Cores fiéis às peças', 'Marcar @tramasmoda'], 'Monte 3 looks com as peças recebidas em um Reels de até 45 s.'),
+          p('story', 'Story de provador', 160, 'por sequência', ['Mínimo de 5 mil seguidores', 'Link da coleção no story'], 'Sequência de 3 stories com o provador e o link.'),
+          p('feed', 'Carrossel look do dia', 380, 'por post', ['Mínimo de 8 mil seguidores', 'Mínimo de 5 fotos', 'Citar tamanho e tecido'], 'Carrossel com detalhes das peças e do caimento.'),
+          p('comissao', 'Comissão sobre vendas', 10, 'por venda', ['Mínimo de 5 mil seguidores', 'Cupom exclusivo'], 'Ganhe sobre cada venda com o seu cupom.', '10%')
+        ],
+        ex: [['@helena.emcasa', 'Reels', '91 mil'], ['@rec.look', 'Reels', '53 mil'], ['@bia.veste', 'Feed', '14 mil'], ['@lucas.provacafe', 'Story', '6 mil']] }
+    ];
+    const st = this.state, set = s => this.setState(s);
+    const cats = ['Todas', ...Array.from(new Set(STORES.map(s => s.category)))];
+    const fmtFrom = s => { const n = s.props.filter(x => x.num).map(x => x.num); return n.length ? 'a partir de ' + R(Math.min(...n)) : 'Permuta'; };
+    const go = (v, id) => { set({ view: v, sid: id ?? st.sid, open: null }); window.scrollTo(0, 0); };
+    const cur = STORES[st.sid];
+    const key = (i) => st.sid + '-' + i;
+    const decorate = (x, i) => {
+      const k = KINDS[x.kind], sent = !!st.sent[key(i)];
+      return { ...x, kind: k.l, bg: k.bg, fg: k.fg, status: sent ? '✓ Proposta enviada' : 'Disponível', stColor: sent ? '#0a7a55' : '#5b5160', onOpen: () => set({ open: i }) };
+    };
+    const props = cur.props.map(decorate);
+    const op = st.open != null ? props[st.open] : props[0];
+    const sent = st.open != null && !!st.sent[key(st.open)];
+    const pal = [O, P, Y, G, K];
+    return {
+      isList: st.view === 'list', isStore: st.view === 'store',
+      goList: () => go('list'),
+      filters: cats.map(c => ({ label: c, onClick: () => set({ filter: c }), bg: st.filter === c ? INK : '#fff', fg: st.filter === c ? '#fff' : INK, sh: st.filter === c ? '3px 3px 0 ' + O : '3px 3px 0 ' + INK })),
+      stores: STORES.map((s, i) => ({ ...s, i, initial: s.name[0], count: s.props.length, from: fmtFrom(s), onOpen: () => go('store', i) })).filter(s => st.filter === 'Todas' || s.category === st.filter),
+      cur: { ...cur, initial: cur.name[0] },
+      props,
+      examples: cur.ex.map((e, i) => { const c = pal[(st.sid + i) % 5]; return { handle: e[0], type: e[1], views: e[2] + ' views', ini: e[0][1].toUpperCase(), color: c, fg: (c === O || c === P) ? '#fff' : INK, rot: [-2, 1.5, -1, 2][i] }; }),
+      hasOpen: st.open != null && st.view === 'store', op,
+      notSent: !sent, isSent: sent,
+      closeP: () => set({ open: null }), stop: e => e.stopPropagation(),
+      accept: () => { const s = { ...st.sent, [key(st.open)]: true }; try { localStorage.setItem('ponte-sent', JSON.stringify(s)); } catch (e) {} set({ sent: s }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
