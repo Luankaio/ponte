@@ -33,7 +33,7 @@ export default function App() {
 
   const cats = ['Todas', ...Array.from(new Set(STORES.map(s => s.category)))];
   const cur = STORES[sid];
-  const key = i => sid + '-' + i;
+  const key = i => cur.name + '-' + i;
 
   const props = cur.props.map((x, i) => {
     const k = KINDS[x.kind];
@@ -99,10 +99,9 @@ export default function App() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%,340px),1fr))', gap: 28 }}>
             {stores.map(s => (
               <div key={s.name} className="store-card" onClick={() => go('store', s.i)} style={{ cursor: 'pointer', background: '#fff', border: '2.5px solid ' + INK, borderRadius: 24, boxShadow: '6px 6px 0 ' + INK, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ background: s.color, height: 150, borderBottom: '2.5px solid ' + INK, position: 'relative', display: 'grid', placeItems: 'center', overflow: 'hidden' }}>
-                  <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 150, letterSpacing: '-.06em', lineHeight: 1, color: s.fg, opacity: 0.22, position: 'absolute', right: 14, bottom: -30 }}>{s.name[0]}</span>
+                <div style={{ background: s.logoBg, height: 200, borderBottom: '2.5px solid ' + INK, position: 'relative', overflow: 'hidden' }}>
+                  <img src={s.logo} alt={'Logo ' + s.name} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
                   <div style={{ position: 'absolute', left: 16, top: 16, background: '#fff', color: INK, border: '2.5px solid ' + INK, borderRadius: 999, whiteSpace: 'nowrap', padding: '3px 12px', fontSize: 13, fontWeight: 700, transform: 'rotate(-3deg)' }}>{s.category}</div>
-                  <div style={{ position: 'absolute', left: 16, bottom: 14, width: 56, height: 56, borderRadius: 16, background: INK, color: '#fff', display: 'grid', placeItems: 'center', fontFamily: DISPLAY, fontWeight: 800, fontSize: 30, transform: 'rotate(4deg)' }}>{s.name[0]}</div>
                 </div>
                 <div style={{ padding: '20px 20px 22px', display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
                   <h3 style={{ margin: 0, fontFamily: DISPLAY, fontWeight: 800, fontSize: 28, letterSpacing: '-.035em', lineHeight: 1.05 }}>{s.name}</h3>
@@ -127,8 +126,8 @@ export default function App() {
           <button className="back-btn" onClick={() => go('list')} style={{ font: "700 15px 'DM Sans',sans-serif", cursor: 'pointer', background: 'none', border: 'none', padding: '6px 0', color: INK, display: 'inline-flex', gap: 8, alignItems: 'center' }}>← Todas as lojas</button>
 
           <section style={{ marginTop: 14, background: cur.color, color: cur.fg, border: '2.5px solid ' + INK, borderRadius: 28, boxShadow: '7px 7px 0 ' + INK, padding: 'clamp(20px,4vw,40px)', display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'center' }}>
-            <div style={{ width: 150, height: 150, flex: 'none', background: '#fff', border: '2.5px solid ' + INK, borderRadius: 18, boxShadow: '4px 4px 0 ' + INK, transform: 'rotate(-4deg)', display: 'grid', placeItems: 'center', color: INK }}>
-              <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 96, letterSpacing: '-.06em', lineHeight: 1 }}>{cur.name[0]}</span>
+            <div style={{ width: 150, height: 150, flex: 'none', background: '#fff', border: '2.5px solid ' + INK, borderRadius: 18, boxShadow: '4px 4px 0 ' + INK, transform: 'rotate(-4deg)', overflow: 'hidden', color: INK }}>
+              <img src={cur.logo} alt={'Logo ' + cur.name} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', borderRadius: 15 }} />
             </div>
             <div style={{ flex: '1 1 340px', minWidth: 0 }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
